@@ -5,9 +5,21 @@ export function Layout() {
   return (
     <LayoutContainer>
       <Grid>
-        <Player size="full" />
-        <Player size="smallFirst" />
-        <Player size="smallSecond" />
+        <Player
+          size="full"
+          music="Galeria do tempo"
+          artist="AnaVitória e Jorge e Mateus"
+        />
+        {/* <Player
+          size="smallFirst"
+          music="Galeria do tempo"
+          artist="AnaVitória e Jorge e Mateus"
+        />
+        <Player
+          size="smallSecond"
+          music="Galeria do tempo"
+          artist="AnaVitória e Jorge e Mateus"
+        /> */}
       </Grid>
     </LayoutContainer>
   )

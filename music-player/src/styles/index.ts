@@ -16,6 +16,8 @@ export const {
       purple200: '#2A2141',
       purple300: '#0F0D13',
       white: '#E1E1E6',
+      gray: '#C4C4CC',
+      progress: '#D9D9D9',
     },
   },
 })
