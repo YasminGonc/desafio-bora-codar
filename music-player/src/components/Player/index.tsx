@@ -19,47 +19,51 @@ interface PlayerProps {
 }
 
 export function Player({ size, music, artist }: PlayerProps) {
-  const [song, setSong] = useState(new Audio(galeriaDoTempo))
+  const song = useRef(new Audio(galeriaDoTempo))
   const [progress, setProgress] = useState(0)
   const [playSong, setPlaySong] = useState(false)
   const [pauseSong, setPauseSong] = useState(true)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [timeLeft, setTimeLeft] = useState(0)
 
-  const songDuration = song.duration
+  const minutesAmount = Math.floor(currentTime / 60)
+  const secondsAmount = Math.floor(currentTime % 60)
 
-  // console.log(songDuration)
+  const minutes = String(minutesAmount).padStart(2, '0')
+  const seconds = String(secondsAmount).padStart(2, '0')
 
-  const currentTimeRef = useRef(0)
+  const minutesLeftAmount = Math.floor(timeLeft / 60)
+  const secondsLeftAmount = Math.floor(timeLeft % 60)
+
+  const minutesLeft = String(minutesLeftAmount).padStart(2, '0')
+  const secondsLeft = String(secondsLeftAmount).padStart(2, '0')
 
   function handlePlayMusic() {
-    song.play()
+    song.current.play()
     setPauseSong(false)
     setPlaySong(true)
   }
 
   function handlePauseMusic() {
-    song.pause()
+    song.current.pause()
     setPauseSong(true)
     setPlaySong(false)
   }
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // const percentage = Math.floor((song.currentTime / songDuration) * 100)
-      // console.log(percentage)
+      setCurrentTime(song.current.currentTime)
     }, 1000)
-    const timer = setTimeout(() => {
-      setProgress(10)
-    }, 500)
-    return () => clearTimeout(timer)
-  })
+
+    return () => clearInterval(interval)
+  }, [])
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      currentTimeRef.current = Math.random()
-    }, 1000)
-
-    // return () => clearInterval(interval)
-  }, [])
+    if (song.current.duration) {
+      setProgress(Math.round((currentTime / song.current.duration) * 100))
+      setTimeLeft(song.current.duration - currentTime)
+    }
+  }, [currentTime])
 
   return (
     <PlayerContainer size={size}>
@@ -81,6 +85,11 @@ export function Player({ size, music, artist }: PlayerProps) {
         <button onClick={handlePlayMusic} disabled={playSong}>
           <Play weight={'fill'} />
         </button>
+        {song.current.duration === currentTime && (
+          <button>
+            <FastForward weight={'fill'} />
+          </button>
+        )}
         <button>
           <FastForward weight={'fill'} />
         </button>
@@ -93,8 +102,8 @@ export function Player({ size, music, artist }: PlayerProps) {
       </ProgressRoot>
 
       <TimeContainer>
-        <p>00:00</p>
-        <p>{currentTimeRef.current}</p>
+        <p>{`${minutes}:${seconds}`}</p>
+        <p>{`${minutesLeft}:${secondsLeft}`}</p>
       </TimeContainer>
     </PlayerContainer>
   )
