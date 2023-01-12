@@ -8,9 +8,18 @@ import {
   TextContainer,
   TimeContainer,
 } from './styles'
-import { Play, FastForward, Rewind, Pause } from 'phosphor-react'
+import {
+  Play,
+  FastForward,
+  Rewind,
+  Pause,
+  ArrowClockwise,
+} from 'phosphor-react'
 import largeImage from '../../assets/largeImage.png'
 import galeriaDoTempo from '../../assets/geleira-do-tempo.mp3'
+// import teste from '../../assets/short-success-sound-glockenspiel-treasure-video-game-6346.mp3'
+import { timeFormatter } from '../../utils/timeFormatter'
+import { ToolTip } from '../Tooltip'
 
 interface PlayerProps {
   size: 'full' | 'smallFirst' | 'smallSecond'
@@ -21,33 +30,39 @@ interface PlayerProps {
 export function Player({ size, music, artist }: PlayerProps) {
   const song = useRef(new Audio(galeriaDoTempo))
   const [progress, setProgress] = useState(0)
-  const [playSong, setPlaySong] = useState(false)
-  const [pauseSong, setPauseSong] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
   const [timeLeft, setTimeLeft] = useState(0)
 
-  const minutesAmount = Math.floor(currentTime / 60)
-  const secondsAmount = Math.floor(currentTime % 60)
+  const [playSong, setPlaySong] = useState(false)
+  const [pauseSong, setPauseSong] = useState(true)
+  const [forwardSong, setForwardSong] = useState(true)
+  const [rewindSong, setRewindSong] = useState(true)
 
-  const minutes = String(minutesAmount).padStart(2, '0')
-  const seconds = String(secondsAmount).padStart(2, '0')
-
-  const minutesLeftAmount = Math.floor(timeLeft / 60)
-  const secondsLeftAmount = Math.floor(timeLeft % 60)
-
-  const minutesLeft = String(minutesLeftAmount).padStart(2, '0')
-  const secondsLeft = String(secondsLeftAmount).padStart(2, '0')
+  const [minutes, seconds] = timeFormatter(currentTime)
+  const [minutesLeft, secondsLeft] = timeFormatter(timeLeft)
 
   function handlePlayMusic() {
     song.current.play()
     setPauseSong(false)
     setPlaySong(true)
+    setForwardSong(false)
+    setRewindSong(false)
   }
 
   function handlePauseMusic() {
     song.current.pause()
     setPauseSong(true)
     setPlaySong(false)
+    setForwardSong(true)
+    setRewindSong(true)
+  }
+
+  function handleForwardMusicTime() {
+    song.current.currentTime += 10
+  }
+
+  function handleRewindMusicTime() {
+    song.current.currentTime -= 10
   }
 
   useEffect(() => {
@@ -63,6 +78,11 @@ export function Player({ size, music, artist }: PlayerProps) {
       setProgress(Math.round((currentTime / song.current.duration) * 100))
       setTimeLeft(song.current.duration - currentTime)
     }
+
+    if (song.current.duration === currentTime) {
+      setPlaySong(true)
+      setPauseSong(true)
+    }
   }, [currentTime])
 
   return (
@@ -76,9 +96,12 @@ export function Player({ size, music, artist }: PlayerProps) {
       </HeaderContainer>
 
       <ButtonsContainer>
-        <button>
-          <Rewind weight={'fill'} />
-        </button>
+        <ToolTip>
+          <button onClick={handleRewindMusicTime} disabled={rewindSong}>
+            <Rewind weight={'fill'} />
+          </button>
+        </ToolTip>
+
         <button onClick={handlePauseMusic} disabled={pauseSong}>
           <Pause weight={'fill'} />
         </button>
@@ -87,10 +110,10 @@ export function Player({ size, music, artist }: PlayerProps) {
         </button>
         {song.current.duration === currentTime && (
           <button>
-            <FastForward weight={'fill'} />
+            <ArrowClockwise weight={'fill'} onClick={handlePlayMusic} />
           </button>
         )}
-        <button>
+        <button onClick={handleForwardMusicTime} disabled={forwardSong}>
           <FastForward weight={'fill'} />
         </button>
       </ButtonsContainer>
