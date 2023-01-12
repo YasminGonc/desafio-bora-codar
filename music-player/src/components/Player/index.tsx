@@ -19,7 +19,7 @@ import largeImage from '../../assets/largeImage.png'
 import galeriaDoTempo from '../../assets/geleira-do-tempo.mp3'
 // import teste from '../../assets/short-success-sound-glockenspiel-treasure-video-game-6346.mp3'
 import { timeFormatter } from '../../utils/timeFormatter'
-import { ToolTip } from '../Tooltip'
+import { ButtonWithTooltip } from '../ButtonWithTooltip'
 
 interface PlayerProps {
   size: 'full' | 'smallFirst' | 'smallSecond'
@@ -96,26 +96,43 @@ export function Player({ size, music, artist }: PlayerProps) {
       </HeaderContainer>
 
       <ButtonsContainer>
-        <ToolTip>
-          <button onClick={handleRewindMusicTime} disabled={rewindSong}>
-            <Rewind weight={'fill'} />
-          </button>
-        </ToolTip>
+        <ButtonWithTooltip
+          note="Voltar 10s"
+          onClickFunction={handleRewindMusicTime}
+          disabled={rewindSong}
+        >
+          <Rewind weight={'fill'} />
+        </ButtonWithTooltip>
 
-        <button onClick={handlePauseMusic} disabled={pauseSong}>
+        <ButtonWithTooltip
+          note="Pausar"
+          onClickFunction={handlePauseMusic}
+          disabled={pauseSong}
+        >
           <Pause weight={'fill'} />
-        </button>
-        <button onClick={handlePlayMusic} disabled={playSong}>
+        </ButtonWithTooltip>
+
+        <ButtonWithTooltip
+          note="Play"
+          onClickFunction={handlePlayMusic}
+          disabled={playSong}
+        >
           <Play weight={'fill'} />
-        </button>
+        </ButtonWithTooltip>
+
         {song.current.duration === currentTime && (
-          <button>
-            <ArrowClockwise weight={'fill'} onClick={handlePlayMusic} />
-          </button>
+          <ButtonWithTooltip note="Replay" onClickFunction={handlePlayMusic}>
+            <ArrowClockwise weight={'fill'} />
+          </ButtonWithTooltip>
         )}
-        <button onClick={handleForwardMusicTime} disabled={forwardSong}>
+
+        <ButtonWithTooltip
+          note="Avançar 10s"
+          onClickFunction={handleForwardMusicTime}
+          disabled={forwardSong}
+        >
           <FastForward weight={'fill'} />
-        </button>
+        </ButtonWithTooltip>
       </ButtonsContainer>
 
       <ProgressRoot>
