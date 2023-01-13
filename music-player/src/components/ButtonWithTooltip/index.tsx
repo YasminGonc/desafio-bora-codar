@@ -25,7 +25,7 @@ export function ButtonWithTooltip({
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <TooltipContent sideOffset={4}>
-            s{note}
+            {note}
             <Tooltip.Arrow />
           </TooltipContent>
         </Tooltip.Portal>

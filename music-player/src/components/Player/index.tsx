@@ -16,19 +16,18 @@ import {
   ArrowClockwise,
 } from 'phosphor-react'
 import largeImage from '../../assets/largeImage.png'
-import galeriaDoTempo from '../../assets/geleira-do-tempo.mp3'
-// import teste from '../../assets/short-success-sound-glockenspiel-treasure-video-game-6346.mp3'
 import { timeFormatter } from '../../utils/timeFormatter'
 import { ButtonWithTooltip } from '../ButtonWithTooltip'
 
 interface PlayerProps {
   size: 'full' | 'smallFirst' | 'smallSecond'
-  music: string
+  musicName: string
   artist: string
+  music: string
 }
 
-export function Player({ size, music, artist }: PlayerProps) {
-  const song = useRef(new Audio(galeriaDoTempo))
+export function Player({ size, musicName, artist, music }: PlayerProps) {
+  const song = useRef(new Audio(music))
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [timeLeft, setTimeLeft] = useState(0)
@@ -82,6 +81,8 @@ export function Player({ size, music, artist }: PlayerProps) {
     if (song.current.duration === currentTime) {
       setPlaySong(true)
       setPauseSong(true)
+      setForwardSong(true)
+      setRewindSong(true)
     }
   }, [currentTime])
 
@@ -90,7 +91,7 @@ export function Player({ size, music, artist }: PlayerProps) {
       <HeaderContainer display={size === 'full'}>
         <img src={largeImage} alt="" />
         <TextContainer>
-          <h2>{music}</h2>
+          <h2>{musicName}</h2>
           <p>{artist}</p>
         </TextContainer>
       </HeaderContainer>
