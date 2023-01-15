@@ -1,25 +1,27 @@
 import * as Tooltip from '@radix-ui/react-tooltip'
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { TooltipContent } from './styles'
 
 interface TooltipProps {
   children: ReactNode
   note: string
   disabled?: boolean
-  onClickFunction: () => void
+  name?: string
+  onClickFunction: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export function ButtonWithTooltip({
   children,
   note,
   disabled,
+  name,
   onClickFunction,
 }: TooltipProps) {
   return (
     <Tooltip.Provider>
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
-          <button onClick={onClickFunction} disabled={disabled}>
+          <button onClick={onClickFunction} disabled={disabled} name={name}>
             {children}
           </button>
         </Tooltip.Trigger>

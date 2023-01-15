@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   ButtonsContainer,
   HeaderContainer,
@@ -24,13 +24,25 @@ interface PlayerProps {
   musicName: string
   artist: string
   music: string
+  currentMusic: string
 }
 
-export function Player({ size, musicName, artist, music }: PlayerProps) {
+export function Player({
+  size,
+  musicName,
+  artist,
+  music,
+  currentMusic,
+}: PlayerProps) {
   const song = useRef(new Audio(music))
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [timeLeft, setTimeLeft] = useState(0)
+  const [currentMusicIndex, setCurrentMusicIndex] = useState<string | null>(
+    null,
+  )
+
+  // const [currentTargetName, setCurrentTargetName] = useState('0')
 
   const [playSong, setPlaySong] = useState(false)
   const [pauseSong, setPauseSong] = useState(true)
@@ -40,12 +52,30 @@ export function Player({ size, musicName, artist, music }: PlayerProps) {
   const [minutes, seconds] = timeFormatter(currentTime)
   const [minutesLeft, secondsLeft] = timeFormatter(timeLeft)
 
-  function handlePlayMusic() {
+  function handlePlayMusic(event: React.MouseEvent<HTMLButtonElement>) {
     song.current.play()
     setPauseSong(false)
     setPlaySong(true)
     setForwardSong(false)
     setRewindSong(false)
+
+    setCurrentMusicIndex(currentMusic)
+
+    console.log(event.currentTarget.name)
+    console.log(song.current.src)
+    if (
+      song.current.src ===
+      'http://127.0.0.1:5173/src/assets/geleira-do-tempo.mp3'
+    ) {
+      if (event.currentTarget.name !== '1') {
+        // event.currentTarget.disabled = true
+        setPlaySong(false)
+      }
+    }
+    // if (event.currentTarget.name !== currentMusicIndex) {
+    //   // setPlaySong(false)
+    //   console.log('ok')
+    // }
   }
 
   function handlePauseMusic() {
@@ -86,6 +116,8 @@ export function Player({ size, musicName, artist, music }: PlayerProps) {
     }
   }, [currentTime])
 
+  // console.log(currentMusicIndex)
+
   return (
     <PlayerContainer size={size}>
       <HeaderContainer display={size === 'full'}>
@@ -115,14 +147,18 @@ export function Player({ size, musicName, artist, music }: PlayerProps) {
 
         <ButtonWithTooltip
           note="Play"
-          onClickFunction={handlePlayMusic}
+          onClickFunction={(event) => handlePlayMusic(event)}
           disabled={playSong}
+          name={currentMusic}
         >
           <Play weight={'fill'} />
         </ButtonWithTooltip>
 
         {song.current.duration === currentTime && (
-          <ButtonWithTooltip note="Replay" onClickFunction={handlePlayMusic}>
+          <ButtonWithTooltip
+            note="Replay"
+            onClickFunction={(event) => handlePlayMusic(event)}
+          >
             <ArrowClockwise weight={'fill'} />
           </ButtonWithTooltip>
         )}
