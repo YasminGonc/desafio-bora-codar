@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import {
   ButtonsContainer,
   HeaderContainer,
@@ -18,13 +18,15 @@ import {
 import largeImage from '../../assets/largeImage.png'
 import { timeFormatter } from '../../utils/timeFormatter'
 import { ButtonWithTooltip } from '../ButtonWithTooltip'
+import { MusicContext } from '../../context/musicContext'
 
 interface PlayerProps {
   size: 'full' | 'smallFirst' | 'smallSecond'
   musicName: string
   artist: string
   music: string
-  currentMusic: string
+  musicId: string
+  disable: boolean
 }
 
 export function Player({
@@ -32,67 +34,28 @@ export function Player({
   musicName,
   artist,
   music,
-  currentMusic,
+  musicId,
+  disable,
 }: PlayerProps) {
   const song = useRef(new Audio(music))
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState(0)
   const [timeLeft, setTimeLeft] = useState(0)
-  const [currentMusicIndex, setCurrentMusicIndex] = useState<string | null>(
-    null,
-  )
-
-  // const [currentTargetName, setCurrentTargetName] = useState('0')
-
-  const [playSong, setPlaySong] = useState(false)
-  const [pauseSong, setPauseSong] = useState(true)
-  const [forwardSong, setForwardSong] = useState(true)
-  const [rewindSong, setRewindSong] = useState(true)
 
   const [minutes, seconds] = timeFormatter(currentTime)
   const [minutesLeft, secondsLeft] = timeFormatter(timeLeft)
 
-  function handlePlayMusic(event: React.MouseEvent<HTMLButtonElement>) {
-    song.current.play()
-    setPauseSong(false)
-    setPlaySong(true)
-    setForwardSong(false)
-    setRewindSong(false)
-
-    setCurrentMusicIndex(currentMusic)
-
-    console.log(event.currentTarget.name)
-    console.log(song.current.src)
-    if (
-      song.current.src ===
-      'http://127.0.0.1:5173/src/assets/geleira-do-tempo.mp3'
-    ) {
-      if (event.currentTarget.name !== '1') {
-        // event.currentTarget.disabled = true
-        setPlaySong(false)
-      }
-    }
-    // if (event.currentTarget.name !== currentMusicIndex) {
-    //   // setPlaySong(false)
-    //   console.log('ok')
-    // }
-  }
-
-  function handlePauseMusic() {
-    song.current.pause()
-    setPauseSong(true)
-    setPlaySong(false)
-    setForwardSong(true)
-    setRewindSong(true)
-  }
-
-  function handleForwardMusicTime() {
-    song.current.currentTime += 10
-  }
-
-  function handleRewindMusicTime() {
-    song.current.currentTime -= 10
-  }
+  const {
+    handlePlayMusic,
+    handlePauseMusic,
+    handleForwardMusicTime,
+    handleRewindMusicTime,
+    disableButtons,
+    playSong,
+    pauseSong,
+    forwardSong,
+    rewindSong,
+  } = useContext(MusicContext)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -109,14 +72,9 @@ export function Player({
     }
 
     if (song.current.duration === currentTime) {
-      setPlaySong(true)
-      setPauseSong(true)
-      setForwardSong(true)
-      setRewindSong(true)
+      disableButtons()
     }
-  }, [currentTime])
-
-  // console.log(currentMusicIndex)
+  }, [currentTime, disableButtons])
 
   return (
     <PlayerContainer size={size}>
@@ -129,46 +87,48 @@ export function Player({
       </HeaderContainer>
 
       <ButtonsContainer>
-        <ButtonWithTooltip
-          note="Voltar 10s"
-          onClickFunction={handleRewindMusicTime}
-          disabled={rewindSong}
-        >
-          <Rewind weight={'fill'} />
+        <ButtonWithTooltip note="Voltar 10s">
+          <button
+            disabled={disable || rewindSong}
+            onClick={() => handleRewindMusicTime(song)}
+          >
+            <Rewind weight={'fill'} />
+          </button>
         </ButtonWithTooltip>
 
-        <ButtonWithTooltip
-          note="Pausar"
-          onClickFunction={handlePauseMusic}
-          disabled={pauseSong}
-        >
-          <Pause weight={'fill'} />
+        <ButtonWithTooltip note="Pausar">
+          <button
+            disabled={disable || pauseSong}
+            onClick={() => handlePauseMusic(song)}
+          >
+            <Pause weight={'fill'} />
+          </button>
         </ButtonWithTooltip>
 
-        <ButtonWithTooltip
-          note="Play"
-          onClickFunction={(event) => handlePlayMusic(event)}
-          disabled={playSong}
-          name={currentMusic}
-        >
-          <Play weight={'fill'} />
+        <ButtonWithTooltip note="Play">
+          <button
+            disabled={playSong}
+            onClick={() => handlePlayMusic(song, musicId)}
+          >
+            <Play weight={'fill'} />
+          </button>
         </ButtonWithTooltip>
 
         {song.current.duration === currentTime && (
-          <ButtonWithTooltip
-            note="Replay"
-            onClickFunction={(event) => handlePlayMusic(event)}
-          >
-            <ArrowClockwise weight={'fill'} />
+          <ButtonWithTooltip note="Replay">
+            <button onClick={() => handlePlayMusic(song, musicId)}>
+              <ArrowClockwise weight={'fill'} />
+            </button>
           </ButtonWithTooltip>
         )}
 
-        <ButtonWithTooltip
-          note="Avançar 10s"
-          onClickFunction={handleForwardMusicTime}
-          disabled={forwardSong}
-        >
-          <FastForward weight={'fill'} />
+        <ButtonWithTooltip note="Avançar 10s">
+          <button
+            disabled={disable || forwardSong}
+            onClick={() => handleForwardMusicTime(song)}
+          >
+            <FastForward weight={'fill'} />
+          </button>
         </ButtonWithTooltip>
       </ButtonsContainer>
 

@@ -5,26 +5,13 @@ import { TooltipContent } from './styles'
 interface TooltipProps {
   children: ReactNode
   note: string
-  disabled?: boolean
-  name?: string
-  onClickFunction: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export function ButtonWithTooltip({
-  children,
-  note,
-  disabled,
-  name,
-  onClickFunction,
-}: TooltipProps) {
+export function ButtonWithTooltip({ children, note }: TooltipProps) {
   return (
     <Tooltip.Provider>
       <Tooltip.Root>
-        <Tooltip.Trigger asChild>
-          <button onClick={onClickFunction} disabled={disabled} name={name}>
-            {children}
-          </button>
-        </Tooltip.Trigger>
+        <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
         <Tooltip.Portal>
           <TooltipContent sideOffset={4}>
             {note}
