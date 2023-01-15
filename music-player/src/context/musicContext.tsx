@@ -17,7 +17,7 @@ interface MusicContextProps {
   handleRewindMusicTime: (
     song: React.MutableRefObject<HTMLAudioElement>,
   ) => void
-  disableButtons: () => void
+  disableButtons: (song: React.MutableRefObject<HTMLAudioElement>) => void
 }
 
 export const MusicContext = createContext({} as MusicContextProps)
@@ -65,11 +65,13 @@ export function MusicProvider({ children }: MusicProviderProps) {
     song.current.currentTime -= 10
   }
 
-  function disableButtons() {
-    setPlaySong(true)
+  function disableButtons(song: React.MutableRefObject<HTMLAudioElement>) {
+    setPlaySong(false)
     setPauseSong(true)
     setForwardSong(true)
     setRewindSong(true)
+    setCurrentMusicId('')
+    song.current.currentTime = 0
   }
 
   return (

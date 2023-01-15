@@ -8,13 +8,7 @@ import {
   TextContainer,
   TimeContainer,
 } from './styles'
-import {
-  Play,
-  FastForward,
-  Rewind,
-  Pause,
-  ArrowClockwise,
-} from 'phosphor-react'
+import { Play, FastForward, Rewind, Pause } from 'phosphor-react'
 import largeImage from '../../assets/largeImage.png'
 import { timeFormatter } from '../../utils/timeFormatter'
 import { ButtonWithTooltip } from '../ButtonWithTooltip'
@@ -72,7 +66,7 @@ export function Player({
     }
 
     if (song.current.duration === currentTime) {
-      disableButtons()
+      disableButtons(song)
     }
   }, [currentTime, disableButtons])
 
@@ -113,14 +107,6 @@ export function Player({
             <Play weight={'fill'} />
           </button>
         </ButtonWithTooltip>
-
-        {song.current.duration === currentTime && (
-          <ButtonWithTooltip note="Replay">
-            <button onClick={() => handlePlayMusic(song, musicId)}>
-              <ArrowClockwise weight={'fill'} />
-            </button>
-          </ButtonWithTooltip>
-        )}
 
         <ButtonWithTooltip note="Avançar 10s">
           <button
