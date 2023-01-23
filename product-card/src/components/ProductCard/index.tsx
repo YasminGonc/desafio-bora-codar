@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ImageContainer,
   PageContainer,
@@ -9,9 +9,16 @@ import {
 import cauch from '../../assets/couch.png'
 import cauchGif from '../../assets/couch-gif.gif'
 import vectorTour from '../../assets/vector-tour.png'
+import { ToastComponent } from '../ToastComponent'
 
 export function ProductCard() {
   const [dynamicImage, setDynamicImage] = useState(false)
+  const [open, setOpen] = useState(false)
+  const timeRef = useRef(0)
+
+  useEffect(() => {
+    return () => clearTimeout(timeRef.current)
+  }, [])
 
   function handleDynamicImage() {
     if (dynamicImage) {
@@ -19,6 +26,14 @@ export function ProductCard() {
     } else {
       setDynamicImage(true)
     }
+  }
+
+  function handleAddToCart() {
+    setOpen(false)
+    window.clearTimeout(timeRef.current)
+    timeRef.current = window.setTimeout(() => {
+      setOpen(true)
+    }, 100)
   }
 
   return (
@@ -35,7 +50,9 @@ export function ProductCard() {
           <ProductCode>Código: 42404</ProductCode>
           <h1>Sofá Margot II - Rosé</h1>
           <p>R$ 4.000</p>
-          <button>Adicionar à cesta</button>
+          <ToastComponent open={open} setOpen={setOpen}>
+            <button onClick={handleAddToCart}>Adicionar à cesta</button>
+          </ToastComponent>
         </TextContainer>
       </ProductCardContainer>
     </PageContainer>
