@@ -1,8 +1,10 @@
-# Music Player
+# 🎤 Music Player
 
 ## About 
 
-Music Player built on #boraCodar challenge. New features was add as Tooltip and tests.
+Music Player built on #boraCodar challenge.
+<br> 
+New features was add as Tooltip and tests.
 
 ## Applied technologies
 
