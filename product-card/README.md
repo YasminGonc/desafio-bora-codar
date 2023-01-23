@@ -10,12 +10,12 @@ New features was add as Toast and tests.
 
 - Built with [Vite](https://vitejs.dev/);
 - [Stiches](https://stitches.dev/) for styles;
-- Tooltip and Progress bar UI component from [Radix](https://www.radix-ui.com/);
+- Toast UI component from [Radix](https://www.radix-ui.com/);
 - [Cypress](https://www.cypress.io/) to manage tests.
 
 ## Layout
 
-<img src="public/deafult.png" width="600">
+<img src="public/default.png" width="600">
 
 <img src="public/active.png" width="600">
 
