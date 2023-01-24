@@ -20,14 +20,25 @@ export const TableContainer = styled('table', {
   marginTop: '4.25rem',
   width: '100%',
   borderCollapse: 'collapse',
+
   fontSize: '0.75rem',
+  textAlign: 'center',
+  textTransform: 'uppercase',
 
   thead: {
     backgroundColor: '$purple700',
-    textTransform: 'uppercase',
 
     th: {
       padding: '1.6rem 0',
+      fontWeight: 'normal',
+    },
+  },
+
+  tbody: {
+    td: {
+      '&:first-child': {
+        backgroundColor: '$purple700',
+      },
     },
   },
 })

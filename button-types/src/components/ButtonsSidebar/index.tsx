@@ -1,6 +1,67 @@
+import { Button, ButtonProps } from '../Button'
 import { ButtonsSidebarContainer, TableContainer } from './styles'
 
 export function ButtonsSidebar() {
+  const defaultButtons: ButtonProps[] = [
+    {
+      text: 'default primary',
+      type: 'primary',
+    },
+    {
+      text: 'default secondary',
+      type: 'secondary',
+    },
+    {
+      text: 'default tertiary',
+      type: 'tertiary',
+    },
+  ]
+
+  const hoverButtons: ButtonProps[] = [
+    {
+      text: 'hover primary',
+      type: 'hoverPrimary',
+    },
+    {
+      text: 'hover secondary',
+      type: 'hoverSecondary',
+    },
+    {
+      text: 'hover tertiary',
+      type: 'tertiary',
+    },
+  ]
+
+  const focusButtons: ButtonProps[] = [
+    {
+      text: 'focus primary',
+      type: 'primary',
+    },
+    {
+      text: 'focus secondary',
+      type: 'secondary',
+    },
+    {
+      text: 'focus tertiary',
+      type: 'tertiary',
+    },
+  ]
+
+  const disabledButtons: ButtonProps[] = [
+    {
+      text: 'disabled primary',
+      type: 'primary',
+    },
+    {
+      text: 'disabled secondary',
+      type: 'secondary',
+    },
+    {
+      text: 'disabled tertiary',
+      type: 'tertiary',
+    },
+  ]
+
   return (
     <ButtonsSidebarContainer>
       <h2>Tipos de botão</h2>
@@ -24,18 +85,46 @@ export function ButtonsSidebar() {
         <tbody>
           <tr>
             <td>default</td>
+            {defaultButtons.map((button) => {
+              return (
+                <td key={button.type}>
+                  <Button text={button.text} type={button.type} />
+                </td>
+              )
+            })}
           </tr>
 
           <tr>
             <td>hover</td>
+            {hoverButtons.map((button) => {
+              return (
+                <td key={button.type}>
+                  <Button text={button.text} type={button.type} />
+                </td>
+              )
+            })}
           </tr>
 
           <tr>
             <td>focus</td>
+            {focusButtons.map((button) => {
+              return (
+                <td key={button.type}>
+                  <Button text={button.text} type={button.type} focus />
+                </td>
+              )
+            })}
           </tr>
 
           <tr>
             <td>disabled</td>
+            {disabledButtons.map((button) => {
+              return (
+                <td key={button.type}>
+                  <Button text={button.text} type={button.type} disabled />
+                </td>
+              )
+            })}
           </tr>
 
           <tr>
