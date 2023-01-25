@@ -31,6 +31,14 @@ export const TableContainer = styled('table', {
     th: {
       padding: '1.6rem 0',
       fontWeight: 'normal',
+
+      '&:first-child': {
+        borderTopLeftRadius: '8px',
+      },
+
+      '&:last-child': {
+        borderTopRightRadius: '8px',
+      },
     },
   },
 

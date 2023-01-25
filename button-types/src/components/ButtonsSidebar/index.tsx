@@ -1,5 +1,12 @@
 import { Button, ButtonProps } from '../Button'
 import { ButtonsSidebarContainer, TableContainer } from './styles'
+import {
+  Cursor,
+  List,
+  Prohibit,
+  Spinner,
+  ArrowsOutCardinal,
+} from 'phosphor-react'
 
 export function ButtonsSidebar() {
   const defaultButtons: ButtonProps[] = [
@@ -62,6 +69,36 @@ export function ButtonsSidebar() {
     },
   ]
 
+  const loadingButtons: ButtonProps[] = [
+    {
+      text: 'loading primary',
+      type: 'primary',
+    },
+    {
+      text: 'loading secondary',
+      type: 'secondary',
+    },
+    {
+      text: 'loading tertiary',
+      type: 'tertiary',
+    },
+  ]
+
+  const movableButtons: ButtonProps[] = [
+    {
+      text: 'movable primary',
+      type: 'primary',
+    },
+    {
+      text: 'movable secondary',
+      type: 'secondary',
+    },
+    {
+      text: 'movable tertiary',
+      type: 'tertiary',
+    },
+  ]
+
   return (
     <ButtonsSidebarContainer>
       <h2>Tipos de botão</h2>
@@ -92,6 +129,9 @@ export function ButtonsSidebar() {
                 </td>
               )
             })}
+            <td>
+              <Cursor />
+            </td>
           </tr>
 
           <tr>
@@ -103,6 +143,9 @@ export function ButtonsSidebar() {
                 </td>
               )
             })}
+            <td>
+              <Cursor />
+            </td>
           </tr>
 
           <tr>
@@ -114,6 +157,9 @@ export function ButtonsSidebar() {
                 </td>
               )
             })}
+            <td>
+              <Cursor />
+            </td>
           </tr>
 
           <tr>
@@ -125,14 +171,41 @@ export function ButtonsSidebar() {
                 </td>
               )
             })}
+            <td>
+              <Prohibit />
+            </td>
           </tr>
 
           <tr>
             <td>loading</td>
+            {loadingButtons.map((button) => {
+              return (
+                <td key={button.type}>
+                  <Button text={button.text} type={button.type}>
+                    <Spinner />
+                  </Button>
+                </td>
+              )
+            })}
+            <td>
+              <Spinner />
+            </td>
           </tr>
 
           <tr>
             <td>movable</td>
+            {movableButtons.map((button) => {
+              return (
+                <td key={button.type}>
+                  <Button text={button.text} type={button.type}>
+                    <List />
+                  </Button>
+                </td>
+              )
+            })}
+            <td>
+              <ArrowsOutCardinal />
+            </td>
           </tr>
         </tbody>
       </TableContainer>

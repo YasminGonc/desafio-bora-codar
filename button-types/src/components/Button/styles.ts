@@ -4,6 +4,7 @@ export const ButtonComponent = styled('button', {
   padding: '0.75rem 1.5rem',
   border: 'none',
   borderRadius: '99px',
+
   color: '$white',
   textTransform: 'uppercase',
 
