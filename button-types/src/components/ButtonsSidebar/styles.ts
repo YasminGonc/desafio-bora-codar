@@ -1,7 +1,7 @@
 import { styled } from '../../styles'
 
 export const ButtonsSidebarContainer = styled('div', {
-  padding: '6rem 5rem',
+  padding: '5rem',
 
   h2: {
     fontSize: '2rem',
@@ -44,8 +44,14 @@ export const TableContainer = styled('table', {
 
   tbody: {
     td: {
+      padding: '0.6rem 0',
+
       '&:first-child': {
         backgroundColor: '$purple700',
+      },
+
+      '&:last-child': {
+        borderRight: '2px solid $purple700',
       },
     },
   },
