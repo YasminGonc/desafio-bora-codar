@@ -1,8 +1,8 @@
 import { StoryObj, Meta } from '@storybook/react'
-import { Player, PlayerProps } from '.'
+import { Player, PlayerProps } from '../components/Player'
 
 export default {
-  title: 'Player',
+  title: 'Music Player/Player',
   component: Player,
   args: {
     artist: 'AnaVitória e Jorge e Mateus',

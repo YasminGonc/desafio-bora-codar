@@ -5,9 +5,13 @@ export const PlayerContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
+
   padding: '1.8rem',
   backgroundColor: '$purple200',
   borderRadius: '9.6px',
+
+  fontFamily: "'Roboto', sans-serif",
+
   variants: {
     size: {
       full: {
@@ -48,8 +52,10 @@ export const HeaderContainer = styled('div', {
 
 export const TextContainer = styled('div', {
   h2: {
+    color: '$white',
     fontSize: '1.5rem',
     fontWeight: 'bold',
+
     margin: '1.8rem 0 0.6rem 0',
   },
 
