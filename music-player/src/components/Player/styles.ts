@@ -13,9 +13,12 @@ export const PlayerContainer = styled('div', {
       full: {
         gridArea: 'full',
         padding: '2.4rem',
+        maxWidth: '297px',
       },
       smallFirst: {
         gridArea: 'smallFirst',
+        maxWidth: '445px',
+        maxHeight: '284px',
       },
       smallSecond: {
         gridArea: 'smallSecond',

@@ -14,7 +14,7 @@ import { timeFormatter } from '../../utils/timeFormatter'
 import { ButtonWithTooltip } from '../ButtonWithTooltip'
 import { MusicContext } from '../../context/musicContext'
 
-interface PlayerProps {
+export interface PlayerProps {
   size: 'full' | 'smallFirst' | 'smallSecond'
   musicName: string
   artist: string
